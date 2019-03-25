@@ -1,5 +1,6 @@
 package com.testapplication.tdi.gn;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,10 @@ import com.testapplication.tdi.gn.ItemFragment.OnListFragmentInteractionListener
 import java.util.List;
 
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
-
-    private final List<GithubItem> mValues;
+    private final List<GitHubItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<GithubItem> items, OnListFragmentInteractionListener listener) {
+    public MyItemRecyclerViewAdapter(List<GitHubItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -28,14 +28,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mNumberView.setText(Integer.toString(position + 1));
         holder.mUserView.setText(mValues.get(position).user);
-        if(position%2 == 0) {
-            holder.mView.setBackgroundColor(0xFF666666);
-        }
-
+        holder.mView.setBackgroundColor(position%2 == 0 ? 0xFF666666 : 0x00000000);
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +54,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final View mView;
         public final TextView mNumberView;
         public final TextView mUserView;
-        public GithubItem mItem;
+        public GitHubItem mItem;
 
         public ViewHolder(View view) {
             super(view);
@@ -65,12 +62,5 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             mNumberView = view.findViewById(R.id.item_number);
             mUserView = view.findViewById(R.id.user);
         }
-/*
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mUserView.getText() + "'";
-        }
-*/
     }
 }

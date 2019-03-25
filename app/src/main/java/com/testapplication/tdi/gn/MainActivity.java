@@ -1,6 +1,7 @@
 package com.testapplication.tdi.gn;
 
 import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,10 +21,10 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     }
 
     private void initializeViewModel() {
-        mViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(MyViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(MyViewModel.class);
         mViewModel.SetViewModelListener(new MyViewModel.ViewModelListener() {
             @Override
-            public void OnRequestViewModelFinished(ArrayList<GithubItem> result) {
+            public void OnRequestViewModelFinished(ArrayList<GitHubItem> result) {
                 ItemFragment listFragment = (ItemFragment) getSupportFragmentManager().findFragmentById(R.id.github_list);
                 listFragment.updateList(result);
             }
@@ -43,6 +44,6 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     }
 
     @Override
-    public void onListFragmentInteraction(GithubItem item) {
+    public void onListFragmentInteraction(GitHubItem item) {
     }
 }

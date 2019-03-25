@@ -17,7 +17,7 @@ class HttpRequesterModel extends AsyncTask<String, Void, String> {
     private ModelListener HttpRequestListener = null;
 
     public interface ModelListener {
-        void OnHttpRequestFinished(ArrayList<GithubItem> result);
+        void OnHttpRequestFinished(ArrayList<GitHubItem> result);
     }
 
     public HttpRequesterModel() {
@@ -40,9 +40,6 @@ class HttpRequesterModel extends AsyncTask<String, Void, String> {
         try {
             URL url = new URL(mUrl);
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestProperty("User-Agent", "SurfAdvisor/1.0 Android");
-            urlConnection.setConnectTimeout(10000);
-            urlConnection.setReadTimeout(10000);
             urlConnection.connect();
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
@@ -69,7 +66,7 @@ class HttpRequesterModel extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        ArrayList<GithubItem> resultData = mParser.parse(result);
+        ArrayList<GitHubItem> resultData = mParser.parse(result);
         if (HttpRequestListener != null) {
             HttpRequestListener.OnHttpRequestFinished(resultData);
         }

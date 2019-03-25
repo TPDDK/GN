@@ -7,19 +7,19 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 public class JSONparser {
-    JSONObject jsonObj;
-    ArrayList<GithubItem> gitHubUserList = new ArrayList<>();
+    private JSONObject jsonObj;
+    private ArrayList<GitHubItem> gitHubUserList = new ArrayList<>();
 
-    public ArrayList<GithubItem> parse(String jsonString) {
+    public ArrayList<GitHubItem> parse(String jsonString) {
         if(jsonString != null) {
             try {
                 jsonObj = new JSONObject(jsonString);
-                JSONArray contacts = jsonObj.getJSONArray("items");
+                JSONArray items = jsonObj.getJSONArray("items");
 
-                for(int i=0;i<contacts.length();i++) {
-                    JSONObject contact = contacts.getJSONObject(i);
+                for(int i=0;i<items.length();i++) {
+                    JSONObject contact = items.getJSONObject(i);
                     String user = contact.getString("url");
-                    GithubItem item = new GithubItem(user);
+                    GitHubItem item = new GitHubItem(user);
                     gitHubUserList.add(item);
                 }
             } catch (JSONException e) {

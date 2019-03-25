@@ -5,16 +5,19 @@ import android.arch.lifecycle.ViewModel;
 import java.util.ArrayList;
 
 public class MyViewModel extends ViewModel {
-    ArrayList<GithubItem> mDataList = new ArrayList<>();
-    HttpRequesterModel mHttpRequesterModel;
+    private ArrayList<GitHubItem> mDataList = new ArrayList<>();
+    private HttpRequesterModel mHttpRequesterModel;
     private ViewModelListener mViewModelListener = null;
 
     public interface ViewModelListener {
-        void OnRequestViewModelFinished(ArrayList<GithubItem> result);
+        void OnRequestViewModelFinished(ArrayList<GitHubItem> result);
     }
 
     public void SetViewModelListener(ViewModelListener listener) {
         mViewModelListener = listener;
+        if(mDataList.size() > 0) {
+            mViewModelListener.OnRequestViewModelFinished(mDataList);
+        }
     }
 
     public void requestData(String name) {
@@ -27,7 +30,7 @@ public class MyViewModel extends ViewModel {
         mHttpRequesterModel = new HttpRequesterModel();
         mHttpRequesterModel.SetModelListener(new HttpRequesterModel.ModelListener() {
             @Override
-            public void OnHttpRequestFinished(ArrayList<GithubItem> result) {
+            public void OnHttpRequestFinished(ArrayList<GitHubItem> result) {
                 mDataList = result;
                 mViewModelListener.OnRequestViewModelFinished(result);
             }
